@@ -22,8 +22,10 @@ wbw_init = function(settings) {
 	} else if (!wbw_enable) {
 		wbw_message_disabled();
 		return;
+	} else if (params.get("diff")) {
+		return;
 	} else if (params.get("oldid") !== null) {
-		wbw_message_ignored();
+		wbw_message_old();
 		return;
 	};
 
@@ -163,6 +165,17 @@ wbw_message_ignored = function() {
     const message_el = document.createElement("div");
 	message_el.setAttribute("id", "wbw_message_box");
 	message_el.innerHTML = "🕒 <strong>Wayback Wiki</strong> is temporarily disabled on this page. ";
+	message_el.innerHTML += "<a href='" + url.toString() + "'>Enable</a>";
+	document.getElementById("bodyContent").prepend(message_el);
+};
+
+wbw_message_old = function() {
+    const url = new URL(window.location.href);
+    const params = url.searchParams;
+	params.delete("oldid");
+    const message_el = document.createElement("div");
+	message_el.setAttribute("id", "wbw_message_box");
+	message_el.innerHTML = "🕒 <strong>Wayback Wiki</strong> is currently disabled on this page because it's an old version of an article. ";
 	message_el.innerHTML += "<a href='" + url.toString() + "'>Enable</a>";
 	document.getElementById("bodyContent").prepend(message_el);
 };
