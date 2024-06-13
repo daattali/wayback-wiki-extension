@@ -91,7 +91,6 @@ wbw_add_loader = function(date) {
     const params = url.searchParams;
 	params.append("wbw_ignore", "1");
 
-    document.body.style.overflow = "hidden";
 	const shield_el = document.createElement("div");
 	shield_el.setAttribute("id", "wbw_shield_out");
 	const shield_msg = document.createElement("div");
@@ -108,10 +107,12 @@ wbw_add_loader = function(date) {
 	shield_el.appendChild(shield_loader);
 	shield_el.appendChild(shield_cancel);
 	document.body.appendChild(shield_el);
+	document.body.style.overflow = "hidden";
 };
 
 wbw_remove_loader = function() {
     document.getElementById("wbw_shield_out").remove();
+	document.body.style.overflow = "auto";
 };
 
 wbw_message_error = function(date) {
