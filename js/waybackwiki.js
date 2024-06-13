@@ -6,30 +6,23 @@ wbw_init = function(settings) {
 	const url = new URL(window.location.href);
 	const params = url.searchParams;
 	const title = wbw_get_title(window.location.href);
+    const wbw_enable = (typeof settings.wbw_enable === 'undefined') ? true : settings.wbw_enable;
+	const wbw_date = (typeof settings.wbw_date === 'undefined') ? '2020-01-01' : settings.wbw_date;
 
-	if (params.get("wbw_ignore") !== null) {
+    if (title === null) {
+		return;
+	} else if (params.get("action") !== null || params.get("veaction") !== null) {
+		return;
+	} else if (params.get("wbw_ignore") !== null) {
 		wbw_message_ignored();
 		return;
-	};
-
-	if (title === null) return;
-
-	if (params.get("action") !== null || params.get("veaction") !== null) return; // edit and visual edit modes
-
-    if (params.get("wbw_success")) {
-      wbw_message_success(params.get("wbw_success"), params.get("wbw_reverse"));
-	  return;
-	}
-
-	let wbw_enable = (typeof settings.wbw_enable === 'undefined') ? true : settings.wbw_enable;
-	let wbw_date = (typeof settings.wbw_date === 'undefined') ? '2020-01-01' : settings.wbw_date;
-	
-	if (!wbw_enable) {
+	} else if (params.get("wbw_success")) {
+        wbw_message_success(params.get("wbw_success"), params.get("wbw_reverse"));
+	    return;
+	} else if (!wbw_enable) {
 		wbw_message_disabled();
 		return;
-	}
-
-	if (params.get("oldid") !== null) {
+	} else if (params.get("oldid") !== null) {
 		wbw_message_ignored();
 		return;
 	};
@@ -166,6 +159,7 @@ wbw_message_ignored = function() {
 	params.delete("wbw_ignore");
     const message_el = document.createElement("div");
 	message_el.setAttribute("id", "wbw_message_box");
-	message_el.innerHTML = "🕒 <strong>Wayback Wiki</strong> is temporarily disabled on this page. <a href='" + url.toString() + "'>Enable</a>";
+	message_el.innerHTML = "🕒 <strong>Wayback Wiki</strong> is temporarily disabled on this page. ";
+	message_el.innerHTML += "<a href='" + url.toString() + "'>Enable</a>";
 	document.getElementById("bodyContent").prepend(message_el);
 };
