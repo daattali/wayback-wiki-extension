@@ -35,14 +35,17 @@ wbw_get_title = function(url) {
     url = new URL(url);
     const params = url.searchParams;
     const path = url.pathname;
-
+    let title = null;
+	
     if (path.startsWith('/wiki/')) {
-        return path.substring(6);
+        title = path.substring(6);
     } else if (path.startsWith('/w/')) {
-        return params.get("title");
-    } else {
-        return null;
+        title = params.get("title");
     }
+	if (title !== null && title.startsWith("Special:")) {
+		title = null;
+	}
+	return title;
 };
 
 // date format YYYY-MM-DD
