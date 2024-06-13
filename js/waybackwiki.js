@@ -62,6 +62,7 @@ wbw_go = function(date, title, reverse = false) {
 	if (reverse) {
 		api += "&rvdir=newer";
 	}
+
     fetch(api)
 	  .then(res => res.json())
 	  .then(res => {
@@ -72,7 +73,11 @@ wbw_go = function(date, title, reverse = false) {
 			params.append("wbw_reverse", reverse);
             window.location.href = url.toString();
         } else {
-			wbw_go(date, title, true);
+			if (reverse === false) {
+			  wbw_go(date, title, true);
+			} else {
+				throw new Error();
+			}
         }
       })
 	  .catch(error => {
