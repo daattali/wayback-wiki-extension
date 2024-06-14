@@ -1,0 +1,51 @@
+#wbw_shield_out {
+  background: rgba(0, 0, 0, 0.9);
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 100000000;
+  text-align: center;
+  color: white;
+  font-size: 26px;
+}
+
+#wbw_shield_msg {
+  margin: 150px 0 30px;
+}
+
+#wbw_shield_loader {
+  margin: 10px auto;
+  border: 6px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 6px solid #3498db;
+  width: 45px;
+  height: 45px;
+  animation: wbw_shield_spin 2s linear infinite;
+}
+
+#wbw_shield_cancel {
+  font-size: 16px;
+  color: #36c !important;
+}
+
+@keyframes wbw_shield_spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#wbw_message_box {
+  background: #dcecff;
+  border: 1px solid #7ac2ff;
+  padding: 1em;
+  margin-top: 1em;
+}
+
+#wbw_message_box a {
+  color: #36c !important;
+}
+
+#wbw_date_form {
+  display: none;
+}

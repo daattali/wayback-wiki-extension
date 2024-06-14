@@ -123,7 +123,7 @@ wbw_message_error = function(date) {
 wbw_message_disabled = function() {
   const message_el = document.createElement("div");
   message_el.setAttribute("id", "wbw_message_box");
-  message_el.innerHTML = "🕒 <strong>Wayback Wiki</strong> is currently disabled. <a id='wbw_enable_btn' href='#'>Enable</a>";
+  message_el.innerHTML = "🕒 <strong>Wayback Wiki</strong> is currently disabled. <a id='wbw_enable_btn' href='javascript:void(0)'>Enable</a>";
   document.getElementById("bodyContent").prepend(message_el);
   document.getElementById("wbw_enable_btn").addEventListener("click", function(e) {
     chrome.storage.sync.set({
@@ -149,7 +149,7 @@ wbw_message_success = function(date, reverse = false) {
   } else {
     message_el.innerHTML += "This page didn't exist on <strong>" + date + "</strong>, so Wayback Wiki took you to the first version.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
   }
-  message_el.innerHTML += "Go to <a href=\"" + url.toString() + "\">today</a> or <a href='#' onclick=\"javascript:document.getElementById('wbw_date_form').style.display='inline'\">different date</a>. "
+  message_el.innerHTML += "Go to <a href=\"" + url.toString() + "\">today</a> or <a href='javascript:void(0)' onclick=\"javascript:document.getElementById('wbw_date_form').style.display='inline'\">different date</a>. "
   message_el.innerHTML += "<span id=\"wbw_date_form\"><input type=\"date\" value=\"" + date + "\" id=\"wbw_date_select\"> <button id=\"wbw_date_go\">Go</button></span>";
 
   document.getElementById("bodyContent").prepend(message_el);
