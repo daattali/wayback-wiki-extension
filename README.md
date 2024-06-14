@@ -1,6 +1,6 @@
 # Wayback Wiki - Surf Wikipedia on a specific date in the past (Chrome / Firefox / Edge extension)
 
-_Install the [Chrome extension](TODO) or [Firefox add-on](TODO)_
+_Install the [Chrome extension](https://chromewebstore.google.com/detail/wayback-wiki/paodbmenneplknjlgdbjlhgpojcngnnc) or [Firefox add-on](https://addons.mozilla.org/en-CA/firefox/addon/wayback-wiki/)_
 
 When surfing Wikipedia, sometimes I want to see how articles looked like on a specific date in the past. With Wayback Wiki you can choose a specific date, and every Wikipedia article you visit will automatically redirect you to the version of the article that existed on that date.
 
@@ -15,11 +15,19 @@ When surfing Wikipedia, sometimes I want to see how articles looked like on a sp
 
 ## Installation
 
-Go to the [Chrome extension store](TODO) or [Firefox add-ons page](TODO) to instantly install with one click.
+Go to the [Chrome extension store](https://chromewebstore.google.com/detail/wayback-wiki/paodbmenneplknjlgdbjlhgpojcngnnc) or [Firefox add-ons page](https://addons.mozilla.org/en-CA/firefox/addon/wayback-wiki/) to instantly install with one click.
 
 ## Screenshots
 
+[![](https://github.com/daattali/wayback-wiki-extension/blob/master/img/doc/screenshot-success.png)](https://github.com/daattali/wayback-wiki-extension/blob/master/img/doc/screenshot-success.png)
 
+[![](https://github.com/daattali/wayback-wiki-extension/blob/master/img/doc/screenshot-reverse.png)](https://github.com/daattali/wayback-wiki-extension/blob/master/img/doc/screenshot-reverse.png)
+
+[![](https://github.com/daattali/wayback-wiki-extension/blob/master/img/doc/screenshot-options.png)](https://github.com/daattali/wayback-wiki-extension/blob/master/img/doc/screenshot-options.png)
+
+[![](https://github.com/daattali/wayback-wiki-extension/blob/master/img/doc/screenshot-loading.png)](https://github.com/daattali/wayback-wiki-extension/blob/master/img/doc/screenshot-loading.png)
+
+[![](https://github.com/daattali/wayback-wiki-extension/blob/master/img/doc/screenshot-temp-disabled.png)](https://github.com/daattali/wayback-wiki-extension/blob/master/img/doc/screenshot-temp-disabled.png)
 
 ---
 
