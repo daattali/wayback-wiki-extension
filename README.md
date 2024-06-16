@@ -1,5 +1,7 @@
 # Wayback Wiki - Surf Wikipedia on a specific date in the past (Chrome / Firefox / Edge extension)
 
+> *Created by [Dean Attali](https://deanattali.com)*
+
 _Install the [Chrome extension](https://chromewebstore.google.com/detail/wayback-wiki/paodbmenneplknjlgdbjlhgpojcngnnc) or [Firefox add-on](https://addons.mozilla.org/en-CA/firefox/addon/wayback-wiki/)_
 
 When surfing Wikipedia, sometimes I want to see how articles looked like on a specific date in the past. With Wayback Wiki you can choose a specific date, and every Wikipedia article you visit will automatically redirect you to the version of the article that existed on that date.
