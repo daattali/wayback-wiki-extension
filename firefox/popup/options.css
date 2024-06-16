@@ -1,19 +1,43 @@
-/* The switch - the box around the slider */
+body {
+  font-size: 14px;
+  font-family: 'Segoe UI', Tahoma;
+}
+
+form {
+  width: 400px;
+}
+
+#wbw_enable_section {
+  margin-bottom: 1.5em;
+}
+
+#wbw_enable_section > * {
+  vertical-align: middle;
+}
+
+#wbw_enable_label {
+  cursor: pointer;
+  font-size: 1.1em;
+}
+
+#wbw_date_section > * {
+  font-size: 1.1em;
+  padding: 0.4em 0.6em;
+}
+
+/* Switch input */
+
 .switch {
   position: relative;
   display: inline-block;
   width: 45px;
   height: 28px;
 }
-
-/* Hide default HTML checkbox */
 .switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
-
-/* The slider */
 .slider {
   position: absolute;
   cursor: pointer;
@@ -25,7 +49,6 @@
   -webkit-transition: .4s;
   transition: .4s;
 }
-
 .slider:before {
   position: absolute;
   content: "";
@@ -37,26 +60,20 @@
   -webkit-transition: .4s;
   transition: .4s;
 }
-
 input:checked + .slider {
   background-color: #2196F3;
 }
-
 input:focus + .slider {
   box-shadow: 0 0 1px #2196F3;
 }
-
 input:checked + .slider:before {
   -webkit-transform: translateX(17px);
   -ms-transform: translateX(17px);
   transform: translateX(17px);
 }
-
-/* Rounded sliders */
 .slider.round {
   border-radius: 34px;
 }
-
 .slider.round:before {
   border-radius: 50%;
 }

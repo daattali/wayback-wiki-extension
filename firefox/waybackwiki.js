@@ -153,6 +153,9 @@ wbw_message_success = function(date, reverse = false) {
   message_el.innerHTML += "<span id=\"wbw_date_form\"><input type=\"date\" value=\"" + date + "\" id=\"wbw_date_select\"> <button id=\"wbw_date_go\">Go</button></span>";
 
   document.getElementById("bodyContent").prepend(message_el);
+  document.getElementById("wbw_date_select").addEventListener("change", function(e) {
+    document.getElementById("wbw_date_go").disabled = (document.getElementById("wbw_date_select").value == "");
+  });
   document.getElementById("wbw_date_go").addEventListener("click", function(e) {
     browser.storage.sync.set({
       wbw_date: document.getElementById("wbw_date_select").value

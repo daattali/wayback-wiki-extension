@@ -14,14 +14,14 @@
         "*://*.wikipedia.org/wiki/*",
         "*://*.wikipedia.org/w/*"       
       ],
-      "js": ["js/waybackwiki.js"],
-	  "css": ["css/waybackwiki.css"],
+      "js": ["waybackwiki.js"],
+      "css": ["waybackwiki.css"],
       "run_at": "document_start"
     }
   ],
   "action": {
     "default_title": "Settings for Wayback Wiki",
-    "default_popup": "html/options.html",
+    "default_popup": "popup/options.html",
     "default_icon": {
       "16": "img/icon-16.png",
       "32": "img/icon-32.png"
