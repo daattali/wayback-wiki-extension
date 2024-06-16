@@ -156,6 +156,15 @@ wbw_message_success = function(date, reverse = false) {
   document.getElementById("wbw_date_select").addEventListener("change", function(e) {
     document.getElementById("wbw_date_go").disabled = (document.getElementById("wbw_date_select").value == "");
   });
+  document.getElementById("wbw_date_select").addEventListener("keydown", function(e) {
+    if (e.code === "Enter") {
+      chrome.storage.sync.set({
+        wbw_date: document.getElementById("wbw_date_select").value
+      });
+      params.delete("wbw_ignore");
+      window.location.href = url.toString();
+    }
+  });
   document.getElementById("wbw_date_go").addEventListener("click", function(e) {
     chrome.storage.sync.set({
       wbw_date: document.getElementById("wbw_date_select").value
