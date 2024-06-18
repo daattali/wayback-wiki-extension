@@ -15,6 +15,9 @@ let wbwOptions = {
     document.getElementById('wbw_date').addEventListener('change', function(e) {
       browser.storage.sync.set({ wbw_date : document.getElementById('wbw_date').value });
     });
+    document.getElementById("wbw_date_apply").addEventListener("click", function(e) {
+      wbwOptions.saveDate();
+    });
 
     wbwOptions.restoreOptions();
   },
@@ -27,6 +30,21 @@ let wbwOptions = {
       document.getElementById('wbw_enable').dispatchEvent(new Event('change'));
       document.getElementById('wbw_date').value = (typeof items.wbw_date === 'undefined') ? "2020-01-01" : items.wbw_date;
     });
+  },
+
+  saveDate : async function() {
+    browser.storage.sync.set({ wbw_date : document.getElementById('wbw_date').value });
+    const [tab] = await browser.tabs.query({active: true, currentWindow: true});
+    window.close();
+    if (wbwOptions.isWikiPage(tab.url)) {
+      browser.tabs.sendMessage(tab.id, { wbwAction : 'refresh' });
+    }
+  },
+
+  isWikiPage : function(url) {
+    const urlParsed = new URL(url);
+    return urlParsed.hostname.endsWith('wikipedia.org') &&
+      (urlParsed.pathname.startsWith('/wiki/') || urlParsed.pathname.startsWith('/w/'));
   }
 }
 

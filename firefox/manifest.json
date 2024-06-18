@@ -32,6 +32,6 @@
       "id": "{c144d8ae-e0e4-4606-b02d-6acb678c074b}"
     }
   },
-  "permissions": ["storage"],
+  "permissions": ["storage", "activeTab"],
   "homepage_url": "https://github.com/daattali/wayback-wiki-extension"
 }

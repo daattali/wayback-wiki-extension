@@ -27,6 +27,6 @@
       "32": "img/icon-32.png"
     }
   },
-  "permissions": ["storage"],
+  "permissions": ["storage", "activeTab"],
   "homepage_url": "https://github.com/daattali/wayback-wiki-extension"
 }

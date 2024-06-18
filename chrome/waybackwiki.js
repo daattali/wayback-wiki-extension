@@ -9,7 +9,11 @@ wbw_init = function(settings) {
   const wbw_enable = (typeof settings.wbw_enable === 'undefined') ? true : settings.wbw_enable;
   const wbw_date = (typeof settings.wbw_date === 'undefined') ? '2020-01-01' : settings.wbw_date;
 
-  if (title === null) {
+  if (!wbw_is_wiki_page(url)) {
+    return;
+  } else if (title === null) {
+    return;
+  } else if (params.get("diff")) {
     return;
   } else if (params.get("action") !== null || params.get("veaction") !== null) {
     return;
@@ -22,8 +26,6 @@ wbw_init = function(settings) {
   } else if (!wbw_enable) {
     wbw_message_disabled();
     return;
-  } else if (params.get("diff")) {
-    return;
   } else if (params.get("oldid") !== null) {
     wbw_message_old();
     return;
@@ -31,6 +33,11 @@ wbw_init = function(settings) {
 
   wbw_add_loader(wbw_date);
   wbw_go(wbw_date, title);
+};
+
+wbw_is_wiki_page = function(url) {
+  return url.hostname.endsWith('wikipedia.org') &&
+    (url.pathname.startsWith('/wiki/') || url.pathname.startsWith('/w/'));
 };
 
 wbw_get_title = function(url) {
@@ -195,3 +202,11 @@ wbw_message_old = function() {
   message_el.innerHTML += "<a href='" + url.toString() + "'>Enable</a>";
   document.getElementById("bodyContent").prepend(message_el);
 };
+
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    if (request.wbwAction && request.wbwAction == "refresh") {
+      ;
+    }
+  }
+);
