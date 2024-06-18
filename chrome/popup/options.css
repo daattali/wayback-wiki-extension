@@ -29,6 +29,17 @@ body {
   padding: 0.4em 0.6em;
 }
 
+#bottom_links {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5em;
+}
+
+#report {
+  margin-right: auto;
+  font-size: 0.8em;
+}
+
 /* Switch input */
 
 .switch {

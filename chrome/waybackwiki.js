@@ -217,7 +217,7 @@ wbwRedirectOrigin = function() {
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if (request.wbwAction && request.wbwAction == "refresh") {
-      ;
+      wbwRedirectOrigin();
     }
   }
 );
