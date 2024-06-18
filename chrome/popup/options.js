@@ -1,20 +1,23 @@
-let wbwOptions = {
+const wbwOptions = {
   init : function() {
+    wbwOptions.restoreOptions();
+
     document.getElementById('wbw_enable_label').addEventListener('click', function(e) {
       document.getElementById('wbw_enable').checked = !document.getElementById('wbw_enable').checked;
       document.getElementById('wbw_enable').dispatchEvent(new Event('change'));
     });
+
     document.getElementById('wbw_enable').addEventListener('change', function(e) {
-      if (document.getElementById('wbw_enable').checked) {
-        document.getElementById('wbw_date_section').style.visibility = 'visible';
-      } else {
-        document.getElementById('wbw_date_section').style.visibility = 'hidden';
-      }
+      const isWbwEnabled = document.getElementById('wbw_enable').checked;
+      document.getElementById('wbw_date_section').style.visibility = isWbwEnabled ? 'visible' : 'hidden';
       chrome.storage.sync.set({ wbw_enable : document.getElementById('wbw_enable').checked });
     });
-    document.getElementById('wbw_date').addEventListener('change', function(e) {
-      document.getElementById("wbw_date_apply").disabled = (document.getElementById("wbw_date").value == "");
+
+    document.getElementById("wbw_date").addEventListener("change", function(e) {
+      const isDateInvalid = (document.getElementById("wbw_date").value == "");
+      document.getElementById("wbw_date_apply").disabled = isDateInvalid;
     });
+
     document.getElementById("wbw_date_apply").addEventListener("click", function(e) {
       wbwOptions.saveDate();
     });
@@ -23,18 +26,13 @@ let wbwOptions = {
         wbwOptions.saveDate();
       }
     });
-
-    wbwOptions.restoreOptions();
   },
 
-  restoreOptions : function() {
-    chrome.storage.sync.get(
-      ['wbw_enable', 'wbw_date']
-    ).then(function(items) {
-      document.getElementById('wbw_enable').checked = (typeof items.wbw_enable === 'undefined') ? true : items.wbw_enable;
-      document.getElementById('wbw_enable').dispatchEvent(new Event('change'));
-      document.getElementById('wbw_date').value = (typeof items.wbw_date === 'undefined') ? "2020-01-01" : items.wbw_date;
-    });
+  restoreOptions : async function() {
+    const wbw_settings = await chrome.storage.sync.get(['wbw_enable', 'wbw_date']);
+    document.getElementById('wbw_enable').checked = (typeof wbw_settings.wbw_enable === 'undefined') ? true : wbw_settings.wbw_enable;
+    document.getElementById('wbw_enable').dispatchEvent(new Event('change'));
+    document.getElementById('wbw_date').value = (typeof wbw_settings.wbw_date === 'undefined') ? "2020-01-01" : wbw_settings.wbw_date;
   },
 
   saveDate : async function() {

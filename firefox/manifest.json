@@ -20,7 +20,7 @@
     }
   ],
   "action": {
-    "default_title": "Settings for Wayback Wiki",
+    "default_title": "Wayback Wiki",
     "default_popup": "popup/options.html",
     "default_icon": {
       "16": "img/icon-16.png",

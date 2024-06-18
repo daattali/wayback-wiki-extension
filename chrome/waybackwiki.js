@@ -1,11 +1,13 @@
-document.addEventListener("DOMContentLoaded", function() {
-  chrome.storage.sync.get(['wbw_enable', 'wbw_date']).then(wbw_init);
+document.addEventListener("DOMContentLoaded", async function() {
+  const wbw_settings = await chrome.storage.sync.get(['wbw_enable', 'wbw_date']);
+  wbw_init(wbw_settings);
 });
 
+// settings is a dictionary with 'wbw_enable' and 'wbw_date'
 wbw_init = function(settings) {
   const url = new URL(window.location.href);
   const params = url.searchParams;
-  const title = wbw_get_title(window.location.href);
+  const title = wbw_get_title(url);
   const wbw_enable = (typeof settings.wbw_enable === 'undefined') ? true : settings.wbw_enable;
   const wbw_date = (typeof settings.wbw_date === 'undefined') ? '2020-01-01' : settings.wbw_date;
 
@@ -41,7 +43,6 @@ wbw_is_wiki_page = function(url) {
 };
 
 wbw_get_title = function(url) {
-  url = new URL(url);
   const params = url.searchParams;
   const path = url.pathname;
   let title = null;
