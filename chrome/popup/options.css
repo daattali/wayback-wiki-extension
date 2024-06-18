@@ -1,9 +1,13 @@
+html {
+  background: #f7fcff;
+}
+
 body {
   font-size: 14px;
   font-family: 'Segoe UI', Tahoma;
 }
 
-form {
+#wbw_form {
   width: 400px;
 }
 

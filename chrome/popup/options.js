@@ -13,10 +13,15 @@ let wbwOptions = {
       chrome.storage.sync.set({ wbw_enable : document.getElementById('wbw_enable').checked });
     });
     document.getElementById('wbw_date').addEventListener('change', function(e) {
-      chrome.storage.sync.set({ wbw_date : document.getElementById('wbw_date').value });
+      document.getElementById("wbw_date_apply").disabled = (document.getElementById("wbw_date").value == "");
     });
     document.getElementById("wbw_date_apply").addEventListener("click", function(e) {
       wbwOptions.saveDate();
+    });
+    document.getElementById("wbw_date").addEventListener("keydown", function(e) {
+      if (e.code === "Enter") {
+        wbwOptions.saveDate();
+      }
     });
 
     wbwOptions.restoreOptions();
