@@ -1,5 +1,7 @@
+const browserAPI = typeof browser !== 'undefined' ? browser : chrome;
+
 document.addEventListener("DOMContentLoaded", async function() {
-  const settings = await chrome.storage.sync.get(['wbw_enable', 'wbw_date']);
+  const settings = await browserAPI.storage.sync.get(['wbw_enable', 'wbw_date']);
   wbwInit(settings);
 });
 
@@ -78,6 +80,7 @@ wbwTravel = function(date, title, reverse = false) {
         params.append("oldid", revid);
         params.append("wbw_success", date);
         params.append("wbw_reverse", reverse);
+        wbwRemoveLoader();
         window.location.href = url.toString();
       } else {
         if (reverse === false) {
@@ -135,7 +138,7 @@ wbwMessageDisabled = function() {
   message_el.innerHTML = "🕒 <strong>Wayback Wiki</strong> is currently disabled. <a id='wbw_enable_btn' href='javascript:void(0)'>Enable</a>";
   document.getElementById("bodyContent").prepend(message_el);
   document.getElementById("wbw_enable_btn").addEventListener("click", function(e) {
-    chrome.storage.sync.set({
+    browserAPI.storage.sync.set({
       wbw_enable: true
     });
     location.reload();
@@ -167,7 +170,7 @@ wbwMessageSuccess = function(date, reverse = false) {
     document.getElementById("wbw_date_go").disabled = isDateInvalid;
   });
   const saveDate = function() {
-    chrome.storage.sync.set({
+    browserAPI.storage.sync.set({
 	  wbw_date: document.getElementById("wbw_date_select").value
     });
     wbwRedirectOrigin();
@@ -214,7 +217,7 @@ wbwRedirectOrigin = function() {
   window.location.href = url.toString();
 }
 
-chrome.runtime.onMessage.addListener(
+browserAPI.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if (request.wbwAction && request.wbwAction == "refresh") {
       wbwRedirectOrigin();

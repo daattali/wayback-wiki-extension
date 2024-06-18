@@ -1,3 +1,5 @@
+const browserAPI = typeof browser !== 'undefined' ? browser : chrome;
+
 const wbwOptions = {
   init : function() {
     wbwOptions.restoreOptions();
@@ -10,7 +12,7 @@ const wbwOptions = {
     document.getElementById('wbw_enable').addEventListener('change', function(e) {
       const isWbwEnabled = document.getElementById('wbw_enable').checked;
       document.getElementById('wbw_date_section').style.visibility = isWbwEnabled ? 'visible' : 'hidden';
-      chrome.storage.sync.set({ wbw_enable : document.getElementById('wbw_enable').checked });
+      browserAPI.storage.sync.set({ wbw_enable : document.getElementById('wbw_enable').checked });
     });
 
     document.getElementById("wbw_date").addEventListener("change", function(e) {
@@ -29,18 +31,18 @@ const wbwOptions = {
   },
 
   restoreOptions : async function() {
-    const wbw_settings = await chrome.storage.sync.get(['wbw_enable', 'wbw_date']);
+    const wbw_settings = await browserAPI.storage.sync.get(['wbw_enable', 'wbw_date']);
     document.getElementById('wbw_enable').checked = (typeof wbw_settings.wbw_enable === 'undefined') ? true : wbw_settings.wbw_enable;
     document.getElementById('wbw_enable').dispatchEvent(new Event('change'));
     document.getElementById('wbw_date').value = (typeof wbw_settings.wbw_date === 'undefined') ? "2020-01-01" : wbw_settings.wbw_date;
   },
 
   saveDate : async function() {
-    chrome.storage.sync.set({ wbw_date : document.getElementById('wbw_date').value });
-    const [tab] = await chrome.tabs.query({active: true, currentWindow: true});
+    browserAPI.storage.sync.set({ wbw_date : document.getElementById('wbw_date').value });
+    const [tab] = await browserAPI.tabs.query({active: true, currentWindow: true});
     window.close();
     if (wbwOptions.isWikiPage(tab.url)) {
-      chrome.tabs.sendMessage(tab.id, { wbwAction : 'refresh' });
+      browserAPI.tabs.sendMessage(tab.id, { wbwAction : 'refresh' });
     }
   },
 
