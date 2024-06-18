@@ -1,17 +1,18 @@
 document.addEventListener("DOMContentLoaded", async function() {
-  const wbw_settings = await chrome.storage.sync.get(['wbw_enable', 'wbw_date']);
-  wbw_init(wbw_settings);
+  const settings = await chrome.storage.sync.get(['wbw_enable', 'wbw_date']);
+  wbwInit(settings);
 });
 
 // settings is a dictionary with 'wbw_enable' and 'wbw_date'
-wbw_init = function(settings) {
-  const url = new URL(window.location.href);
-  const params = url.searchParams;
-  const title = wbw_get_title(url);
-  const wbw_enable = (typeof settings.wbw_enable === 'undefined') ? true : settings.wbw_enable;
-  const wbw_date = (typeof settings.wbw_date === 'undefined') ? '2020-01-01' : settings.wbw_date;
+wbwInit = function(settings) {
+  const url = window.location.href;
+  const urlParsed = new URL(url);
+  const params = urlParsed.searchParams;
+  const title = wbwGetTitle(urlParsed);
+  const wbwEnabled = (typeof settings.wbw_enable === 'undefined') ? true : settings.wbw_enable;
+  const wbwDate = (typeof settings.wbw_date === 'undefined') ? '2020-01-01' : settings.wbw_date;
 
-  if (!wbw_is_wiki_page(url)) {
+  if (!wbwIsWikiPage(urlParsed)) {
     return;
   } else if (title === null) {
     return;
@@ -20,31 +21,31 @@ wbw_init = function(settings) {
   } else if (params.get("action") !== null || params.get("veaction") !== null) {
     return;
   } else if (params.get("wbw_ignore") !== null) {
-    wbw_message_ignored();
+    wbwMessageIgnored();
     return;
   } else if (params.get("wbw_success")) {
-    wbw_message_success(params.get("wbw_success"), params.get("wbw_reverse"));
+    wbwMessageSuccess(params.get("wbw_success"), params.get("wbw_reverse"));
     return;
-  } else if (!wbw_enable) {
-    wbw_message_disabled();
+  } else if (!wbwEnabled) {
+    wbwMessageDisabled();
     return;
   } else if (params.get("oldid") !== null) {
-    wbw_message_old();
+    wbwMessageOld();
     return;
   };
 
-  wbw_add_loader(wbw_date);
-  wbw_go(wbw_date, title);
+  wbwAddLoader(wbwDate);
+  wbwTravel(wbwDate, title);
 };
 
-wbw_is_wiki_page = function(url) {
-  return url.hostname.endsWith('wikipedia.org') &&
-    (url.pathname.startsWith('/wiki/') || url.pathname.startsWith('/w/'));
+wbwIsWikiPage = function(urlParsed) {
+  return urlParsed.hostname.endsWith('wikipedia.org') &&
+    (urlParsed.pathname.startsWith('/wiki/') || urlParsed.pathname.startsWith('/w/'));
 };
 
-wbw_get_title = function(url) {
-  const params = url.searchParams;
-  const path = url.pathname;
+wbwGetTitle = function(urlParsed) {
+  const params = urlParsed.searchParams;
+  const path = urlParsed.pathname;
   let title = null;
 
   if (path.startsWith('/wiki/')) {
@@ -59,7 +60,7 @@ wbw_get_title = function(url) {
 };
 
 // date format YYYY-MM-DD
-wbw_go = function(date, title, reverse = false) {
+wbwTravel = function(date, title, reverse = false) {
   const url = new URL(window.location.href);
   const params = url.searchParams;
   const path = url.pathname;
@@ -80,19 +81,19 @@ wbw_go = function(date, title, reverse = false) {
         window.location.href = url.toString();
       } else {
         if (reverse === false) {
-          wbw_go(date, title, true);
+          wbwTravel(date, title, true);
         } else {
           throw new Error();
         }
       }
     })
     .catch(error => {
-      wbw_remove_loader();
-      wbw_message_error(date);
+      wbwRemoveLoader();
+      wbwMessageError(date);
     });
 };
 
-wbw_add_loader = function(date) {
+wbwAddLoader = function(date) {
   const url = new URL(window.location.href);
   const params = url.searchParams;
   params.append("wbw_ignore", "1");
@@ -116,19 +117,19 @@ wbw_add_loader = function(date) {
   document.body.style.overflow = "hidden";
 };
 
-wbw_remove_loader = function() {
+wbwRemoveLoader = function() {
   document.getElementById("wbw_shield_out").remove();
   document.body.style.overflow = "auto";
 };
 
-wbw_message_error = function(date) {
+wbwMessageError = function(date) {
   const message_el = document.createElement("div");
   message_el.setAttribute("id", "wbw_message_box");
   message_el.innerHTML = "🕒 Wayback Wiki encountered an error and did not take you to " + date;
   document.getElementById("bodyContent").prepend(message_el);
 };
 
-wbw_message_disabled = function() {
+wbwMessageDisabled = function() {
   const message_el = document.createElement("div");
   message_el.setAttribute("id", "wbw_message_box");
   message_el.innerHTML = "🕒 <strong>Wayback Wiki</strong> is currently disabled. <a id='wbw_enable_btn' href='javascript:void(0)'>Enable</a>";
@@ -141,7 +142,7 @@ wbw_message_disabled = function() {
   });
 };
 
-wbw_message_success = function(date, reverse = false) {
+wbwMessageSuccess = function(date, reverse = false) {
   const url = new URL(window.location.href);
   const params = url.searchParams;
   params.append("wbw_ignore", "1");
@@ -162,26 +163,26 @@ wbw_message_success = function(date, reverse = false) {
 
   document.getElementById("bodyContent").prepend(message_el);
   document.getElementById("wbw_date_select").addEventListener("change", function(e) {
-    document.getElementById("wbw_date_go").disabled = (document.getElementById("wbw_date_select").value == "");
+    const isDateInvalid = (document.getElementById("wbw_date_select").value == "");
+    document.getElementById("wbw_date_go").disabled = isDateInvalid;
   });
-  const apply_date = function() {
-      chrome.storage.sync.set({
-        wbw_date: document.getElementById("wbw_date_select").value
-      });
-      params.delete("wbw_ignore");
-      window.location.href = url.toString();
+  const saveDate = function() {
+    chrome.storage.sync.set({
+	  wbw_date: document.getElementById("wbw_date_select").value
+    });
+    wbwRedirectOrigin();
   };
   document.getElementById("wbw_date_select").addEventListener("keydown", function(e) {
     if (e.code === "Enter") {
-      apply_date();
+      saveDate();
     }
   });
   document.getElementById("wbw_date_go").addEventListener("click", function(e) {
-    apply_date();
+    saveDate();
   });
 };
 
-wbw_message_ignored = function() {
+wbwMessageIgnored = function() {
   const url = new URL(window.location.href);
   const params = url.searchParams;
   params.delete("wbw_ignore");
@@ -192,7 +193,7 @@ wbw_message_ignored = function() {
   document.getElementById("bodyContent").prepend(message_el);
 };
 
-wbw_message_old = function() {
+wbwMessageOld = function() {
   const url = new URL(window.location.href);
   const params = url.searchParams;
   params.delete("oldid");
@@ -202,6 +203,16 @@ wbw_message_old = function() {
   message_el.innerHTML += "<a href='" + url.toString() + "'>Enable</a>";
   document.getElementById("bodyContent").prepend(message_el);
 };
+
+wbwRedirectOrigin = function() {
+  const url = new URL(window.location.href);
+  const params = url.searchParams;
+  params.delete("oldid");
+  params.delete("wbw_reverse");
+  params.delete("wbw_success");
+  params.delete("wbw_ignore");
+  window.location.href = url.toString();
+}
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
