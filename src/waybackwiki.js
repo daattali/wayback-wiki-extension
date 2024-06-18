@@ -1,3 +1,11 @@
+// deal with bfcache - Back button would cause the loader to show indefinitely
+window.onpageshow = function(event) {
+  if (event.persisted) {
+    wbwRemoveLoader();
+  }
+}
+
+// make the code cross-browser for both Firefox and Chrome API
 const browserAPI = typeof browser !== 'undefined' ? browser : chrome;
 
 document.addEventListener("DOMContentLoaded", async function() {
@@ -80,7 +88,6 @@ wbwTravel = function(date, title, reverse = false) {
         params.append("oldid", revid);
         params.append("wbw_success", date);
         params.append("wbw_reverse", reverse);
-        wbwRemoveLoader();
         window.location.href = url.toString();
       } else {
         if (reverse === false) {
@@ -121,7 +128,9 @@ wbwAddLoader = function(date) {
 };
 
 wbwRemoveLoader = function() {
-  document.getElementById("wbw_shield_out").remove();
+  if (document.getElementById("wbw_shield_out")) {
+    document.getElementById("wbw_shield_out").remove();
+  }
   document.body.style.overflow = "auto";
 };
 
