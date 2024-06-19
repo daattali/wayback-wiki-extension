@@ -36,6 +36,7 @@
 }
 
 #wbw_message_box {
+  position: relative;
   background: #dcecff;
   border: 1px solid #7ac2ff;
   padding: 1em;
@@ -48,4 +49,11 @@
 
 #wbw_date_form {
   display: none;
+}
+
+#wbw_disable_btn {
+  position: absolute;
+  right: 5px;
+  bottom: 1px;
+  font-size: 0.8em;
 }

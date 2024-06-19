@@ -134,23 +134,33 @@ wbwRemoveLoader = function() {
   document.body.style.overflow = "auto";
 };
 
-wbwCreateMessageBox = function(html) {
+wbwCreateMessageBox = function(html, disableBtn = true) {
   const messageBox = document.createElement("div");
   messageBox.setAttribute("id", "wbw_message_box");
   messageBox.innerHTML = html;
   document.getElementById("bodyContent").prepend(messageBox);
+
+  if (disableBtn) {
+    messageBox.innerHTML += "<a id='wbw_disable_btn' href='javascript:void(0);'>Disable Wayback Wiki</a>";
+    document.getElementById("wbw_disable_btn").addEventListener("click", function(e) {
+      browserAPI.storage.sync.set({
+        wbw_enable: false
+      });
+      wbwRedirectOrigin();
+    });
+  }
 }
 
 wbwMessageError = function(date) {
   let html = "🕒 Wayback Wiki encountered an <strong>error</strong> ";
   html += "and did not take you to " + date + ".";
-  wbwCreateMessageBox(html);
+  wbwCreateMessageBox(html, true);
 };
 
 wbwMessageDisabled = function() {
   let html = "🕒 <strong>Wayback Wiki</strong> is currently disabled. ";
   html += "<a id='wbw_enable_btn' href='javascript:void(0)'>Enable</a>";
-  wbwCreateMessageBox(html);
+  wbwCreateMessageBox(html, false);
   document.getElementById("wbw_enable_btn").addEventListener("click", function(e) {
     browserAPI.storage.sync.set({
       wbw_enable: true
@@ -178,7 +188,7 @@ wbwMessageSuccess = function(date, reverse = false) {
   html += "<a href='javascript:void(0)' onclick=\"javascript:document.getElementById('wbw_date_form').style.display='inline'\">different date</a>. ";
   html += "<span id=\"wbw_date_form\"><input type=\"date\" value=\"" + date + "\" id=\"wbw_date_select\"> ";
   html += "<button id=\"wbw_date_go\">Go</button></span>";
-  wbwCreateMessageBox(html);
+  wbwCreateMessageBox(html, true);
   document.getElementById("wbw_date_select").addEventListener("change", function(e) {
     const isDateInvalid = (document.getElementById("wbw_date_select").value == "");
     document.getElementById("wbw_date_go").disabled = isDateInvalid;
@@ -205,7 +215,7 @@ wbwMessageIgnored = function() {
   params.delete("wbw_ignore");
   let html = "🕒 <strong>Wayback Wiki</strong> is temporarily disabled on this page. ";
   html += "<a href='" + url.toString() + "'>Enable</a>";
-  wbwCreateMessageBox(html);
+  wbwCreateMessageBox(html, false);
 };
 
 wbwMessageOld = function() {
@@ -214,7 +224,7 @@ wbwMessageOld = function() {
   params.delete("oldid");
   let html = "🕒 <strong>Wayback Wiki</strong> is currently disabled on this page because it's an old version of an article. ";
   html += "<a href='" + url.toString() + "'>Enable</a>";
-  wbwCreateMessageBox(html);
+  wbwCreateMessageBox(html, false);
 };
 
 // Redirect to the original Wiki page without any WBW parameters
