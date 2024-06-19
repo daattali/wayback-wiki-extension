@@ -11,10 +11,6 @@ body {
   width: 400px;
 }
 
-#wbw_enable_section {
-  margin-bottom: 1.5em;
-}
-
 #wbw_enable_section > * {
   vertical-align: middle;
 }
@@ -24,20 +20,39 @@ body {
   font-size: 1.1em;
 }
 
-#wbw_date_section > * {
+#wbw_date {
+  margin: 1.3em 0;
   font-size: 1.1em;
   padding: 0.4em 0.6em;
+}
+
+#wbw_date_apply {
+  font-size: 1em;
+  padding: 0.5em 1.5em;
 }
 
 #bottom_links {
   display: flex;
   align-items: flex-end;
-  gap: 0.5em;
+}
+
+#bottom_links a {
+  color: #36c !important;
+  text-decoration: none;
+}
+#bottom_links a:hover {
+  text-decoration: underline;
 }
 
 #report {
   margin-right: auto;
   font-size: 0.8em;
+}
+
+a#support {
+  margin-left: auto;
+  color: hotpink !important;
+  font-weight: bold;
 }
 
 /* Switch input */

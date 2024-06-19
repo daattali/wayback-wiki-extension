@@ -11,8 +11,9 @@ const wbwOptions = {
 
     document.getElementById('wbw_enable').addEventListener('change', function(e) {
       const isWbwEnabled = document.getElementById('wbw_enable').checked;
-      document.getElementById('wbw_date_section').style.visibility = isWbwEnabled ? 'visible' : 'hidden';
-      browserAPI.storage.sync.set({ wbw_enable : document.getElementById('wbw_enable').checked });
+	  const isDateInvalid = (document.getElementById("wbw_date").value == "");
+      document.getElementById('wbw_date').disabled = !isWbwEnabled;
+	  document.getElementById("wbw_date_apply").disabled = isWbwEnabled && isDateInvalid;
     });
 
     document.getElementById("wbw_date").addEventListener("change", function(e) {
@@ -38,7 +39,11 @@ const wbwOptions = {
   },
 
   saveDate : async function() {
-    browserAPI.storage.sync.set({ wbw_date : document.getElementById('wbw_date').value });
+    const enabled = document.getElementById('wbw_enable').checked;
+    browserAPI.storage.sync.set({ wbw_enable : enabled });
+    if (enabled) {
+      browserAPI.storage.sync.set({ wbw_date : document.getElementById('wbw_date').value });
+    }
     const [tab] = await browserAPI.tabs.query({active: true, currentWindow: true});
     window.close();
     if (wbwOptions.isWikiPage(tab.url)) {
