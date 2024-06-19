@@ -231,11 +231,17 @@ wbwMessageOld = function() {
 wbwRedirectOrigin = function() {
   const url = new URL(window.location.href);
   const params = url.searchParams;
+  const nParams = params.size;
   params.delete("oldid");
   params.delete("wbw_reverse");
   params.delete("wbw_success");
   params.delete("wbw_ignore");
-  window.location.href = url.toString();
+
+  if (params.size == nParams) {
+    location.reload();
+  } else {
+    window.location.href = url.toString();
+  }
 }
 
 browserAPI.runtime.onMessage.addListener(
