@@ -108,22 +108,22 @@ wbwAddLoader = function(date) {
   const params = url.searchParams;
   params.append("wbw_ignore", "1");
 
-  const shield_el = document.createElement("div");
-  shield_el.setAttribute("id", "wbw_shield_out");
-  const shield_msg = document.createElement("div");
-  shield_msg.innerHTML = "Wayback Wiki is going back in time to " + date;
-  shield_msg.setAttribute("id", "wbw_shield_msg");
-  const shield_loader = document.createElement("div");
-  shield_loader.setAttribute("id", "wbw_shield_loader");
-  const shield_cancel = document.createElement("a");
-  shield_cancel.innerHTML = "Cancel";
-  shield_cancel.setAttribute("id", "wbw_shield_cancel");
-  shield_cancel.setAttribute("href", url.toString());
+  const shieldEl = document.createElement("div");
+  shieldEl.setAttribute("id", "wbw_shield_out");
+  const shieldMsg = document.createElement("div");
+  shieldMsg.innerHTML = "Wayback Wiki is going back in time to " + date;
+  shieldMsg.setAttribute("id", "wbw_shield_msg");
+  const shieldLoader = document.createElement("div");
+  shieldLoader.setAttribute("id", "wbw_shield_loader");
+  const shieldCancel = document.createElement("a");
+  shieldCancel.innerHTML = "Cancel";
+  shieldCancel.setAttribute("id", "wbw_shield_cancel");
+  shieldCancel.setAttribute("href", url.toString());
 
-  shield_el.appendChild(shield_msg);
-  shield_el.appendChild(shield_loader);
-  shield_el.appendChild(shield_cancel);
-  document.body.appendChild(shield_el);
+  shieldEl.appendChild(shieldMsg);
+  shieldEl.appendChild(shieldLoader);
+  shieldEl.appendChild(shieldCancel);
+  document.body.appendChild(shieldEl);
   document.body.style.overflow = "hidden";
 };
 
@@ -134,19 +134,23 @@ wbwRemoveLoader = function() {
   document.body.style.overflow = "auto";
 };
 
+wbwCreateMessageBox = function(html) {
+  const messageBox = document.createElement("div");
+  messageBox.setAttribute("id", "wbw_message_box");
+  messageBox.innerHTML = html;
+  document.getElementById("bodyContent").prepend(messageBox);
+}
+
 wbwMessageError = function(date) {
-  const message_el = document.createElement("div");
-  message_el.setAttribute("id", "wbw_message_box");
-  message_el.innerHTML = "🕒 Wayback Wiki encountered an <strong>error</strong> and did not take you to " + date + ".";
-  document.getElementById("bodyContent").prepend(message_el);
-  wbwMessageAddDisableBtn();
+  let html = "🕒 Wayback Wiki encountered an <strong>error</strong> ";
+  html += "and did not take you to " + date + ".";
+  wbwCreateMessageBox(html);
 };
 
 wbwMessageDisabled = function() {
-  const message_el = document.createElement("div");
-  message_el.setAttribute("id", "wbw_message_box");
-  message_el.innerHTML = "🕒 <strong>Wayback Wiki</strong> is currently disabled. <a id='wbw_enable_btn' href='javascript:void(0)'>Enable</a>";
-  document.getElementById("bodyContent").prepend(message_el);
+  let html = "🕒 <strong>Wayback Wiki</strong> is currently disabled. ";
+  html += "<a id='wbw_enable_btn' href='javascript:void(0)'>Enable</a>";
+  wbwCreateMessageBox(html);
   document.getElementById("wbw_enable_btn").addEventListener("click", function(e) {
     browserAPI.storage.sync.set({
       wbw_enable: true
@@ -163,18 +167,18 @@ wbwMessageSuccess = function(date, reverse = false) {
   params.delete("wbw_reverse");
   params.delete("wbw_success");
 
-  const message_el = document.createElement("div");
-  message_el.setAttribute("id", "wbw_message_box");
-  message_el.innerHTML = "🕒 ";
+  let html = "🕒 ";
   if (reverse == false || reverse == 'false') {
-    message_el.innerHTML += "Wayback Wiki took you to <strong>" + date + "</strong>. ";
+    html += "Wayback Wiki took you to <strong>" + date + "</strong>. ";
   } else {
-    message_el.innerHTML += "This page didn't exist on <strong>" + date + "</strong>, so Wayback Wiki took you to the first version.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+    html += "This page didn't exist on <strong>" + date + "</strong>, so Wayback Wiki took you to the first version.";
+	html += "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
   }
-  message_el.innerHTML += "Go to <a href=\"" + url.toString() + "\">today</a> or a <a href='javascript:void(0)' onclick=\"javascript:document.getElementById('wbw_date_form').style.display='inline'\">different date</a>. "
-  message_el.innerHTML += "<span id=\"wbw_date_form\"><input type=\"date\" value=\"" + date + "\" id=\"wbw_date_select\"> <button id=\"wbw_date_go\">Go</button></span>";
-
-  document.getElementById("bodyContent").prepend(message_el);
+  html += "Go to <a href=\"" + url.toString() + "\">today</a> or a ";
+  html += "<a href='javascript:void(0)' onclick=\"javascript:document.getElementById('wbw_date_form').style.display='inline'\">different date</a>. ";
+  html += "<span id=\"wbw_date_form\"><input type=\"date\" value=\"" + date + "\" id=\"wbw_date_select\"> ";
+  html += "<button id=\"wbw_date_go\">Go</button></span>";
+  wbwCreateMessageBox(html);
   document.getElementById("wbw_date_select").addEventListener("change", function(e) {
     const isDateInvalid = (document.getElementById("wbw_date_select").value == "");
     document.getElementById("wbw_date_go").disabled = isDateInvalid;
@@ -199,24 +203,21 @@ wbwMessageIgnored = function() {
   const url = new URL(window.location.href);
   const params = url.searchParams;
   params.delete("wbw_ignore");
-  const message_el = document.createElement("div");
-  message_el.setAttribute("id", "wbw_message_box");
-  message_el.innerHTML = "🕒 <strong>Wayback Wiki</strong> is temporarily disabled on this page. ";
-  message_el.innerHTML += "<a href='" + url.toString() + "'>Enable</a>";
-  document.getElementById("bodyContent").prepend(message_el);
+  let html = "🕒 <strong>Wayback Wiki</strong> is temporarily disabled on this page. ";
+  html += "<a href='" + url.toString() + "'>Enable</a>";
+  wbwCreateMessageBox(html);
 };
 
 wbwMessageOld = function() {
   const url = new URL(window.location.href);
   const params = url.searchParams;
   params.delete("oldid");
-  const message_el = document.createElement("div");
-  message_el.setAttribute("id", "wbw_message_box");
-  message_el.innerHTML = "🕒 <strong>Wayback Wiki</strong> is currently disabled on this page because it's an old version of an article. ";
-  message_el.innerHTML += "<a href='" + url.toString() + "'>Enable</a>";
-  document.getElementById("bodyContent").prepend(message_el);
+  let html = "🕒 <strong>Wayback Wiki</strong> is currently disabled on this page because it's an old version of an article. ";
+  html += "<a href='" + url.toString() + "'>Enable</a>";
+  wbwCreateMessageBox(html);
 };
 
+// Redirect to the original Wiki page without any WBW parameters
 wbwRedirectOrigin = function() {
   const url = new URL(window.location.href);
   const params = url.searchParams;
