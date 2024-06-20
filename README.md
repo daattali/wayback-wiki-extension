@@ -2,7 +2,7 @@
 
 > *Created by [Dean Attali](https://deanattali.com)*
 
-_Install the [Chrome extension](https://chromewebstore.google.com/detail/wayback-wiki/paodbmenneplknjlgdbjlhgpojcngnnc) or [Firefox add-on](https://addons.mozilla.org/en-CA/firefox/addon/wayback-wiki/)_
+_Install the [Chrome extension](https://chromewebstore.google.com/detail/wayback-wiki/paodbmenneplknjlgdbjlhgpojcngnnc) or [Firefox add-on](https://addons.mozilla.org/en-CA/firefox/addon/wayback-wiki/) or [Edge extension](https://microsoftedge.microsoft.com/addons/detail/aeoljbaanncbgbholflcdhccdkbmkdnk)_
 
 When surfing Wikipedia, sometimes I want to see how articles looked like on a specific date in the past. With Wayback Wiki you can choose a specific date, and every Wikipedia article you visit will automatically redirect you to the version of the article that existed on that date.
 
@@ -17,7 +17,7 @@ When surfing Wikipedia, sometimes I want to see how articles looked like on a sp
 
 ## Installation
 
-Go to the [Chrome extension store](https://chromewebstore.google.com/detail/wayback-wiki/paodbmenneplknjlgdbjlhgpojcngnnc) or [Firefox add-ons page](https://addons.mozilla.org/en-CA/firefox/addon/wayback-wiki/) to instantly install with one click.
+Go to the [Chrome extension store](https://chromewebstore.google.com/detail/wayback-wiki/paodbmenneplknjlgdbjlhgpojcngnnc) or [Firefox add-ons page](https://addons.mozilla.org/en-CA/firefox/addon/wayback-wiki/) or [Edge extension](https://microsoftedge.microsoft.com/addons/detail/aeoljbaanncbgbholflcdhccdkbmkdnk) to instantly install with one click.
 
 ## Screenshots
 
